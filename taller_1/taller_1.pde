@@ -108,15 +108,22 @@ void movieEvent(Movie m){
   m.read();
 }
 */
+
+ 
 void draw(){
   println(frameRate);
   update(mouseX, mouseY);
+  text("mascara 1"    ,15,480,80,40);
+  text("mascara 2"    ,110,480,80,40);
+  text("Escala Grices",195,480,80,40);
+  text("Segmentacion" ,283,480,85,40);
+  text("Video"        ,385,480,80,40);
   rect(10,430,80,40);
   rect(100,430,80,40);
   rect(190,430,80,40);
   rect(280,430,80,40);
   rect(370,430,80,40);
-  
+
   if(general==1){
     cambio = convolucion(img,1);
     pg.beginDraw();
