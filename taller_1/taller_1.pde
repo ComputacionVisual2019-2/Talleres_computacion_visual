@@ -6,6 +6,8 @@ import processing.video.*;
 PImage img, cambio;
 PGraphics pg;
 int [] arreglo = new int[256];
+int option=1, general = 0;
+
 
 PImage convolucion(PImage inicial, int opcion){ 
   float matris[][] = new float[3][3];
@@ -97,38 +99,111 @@ void setup(){
   //size(1950,1200);
   img.resize(400,400);
   img.loadPixels();
-  int opcion = 0;
-  
-  cambio = convolucion(img,opcion);
-  
-  arreglo = histograma();
-  pg=createGraphics(512, cambio.height);  
+  int opcion = 2;
+  //cambio = convolucion(img,opcion);
+  /// para la segmentacion en grises
+  //arreglo = histograma();
+  pg=createGraphics(512, img.height);  
+  /*
   cambio = segmentacion();
-
+  */
+  //para video
+  /*
   movie = new Movie(this,"video.mp4");
-  movie.resize(500,500);
+
   movie.loop();
-  
+  */
 
 };
 
-
+/*
 void movieEvent(Movie m){
   m.read();
 }
-
+*/
 void draw(){
-  /*
-  pg.beginDraw();
-  pg.background(100);
-  pg.stroke(255);
-  pintarLineas();
-  pg.endDraw();
-  image(img,10,10);
-  image(cambio, 420,10);
-  */
-  //image(pg, 830,10);
-  image (movie,830,10, movie.width,movie.height);
+  update(mouseX, mouseY);
+  rect(10,430,80,40);
+  rect(100,430,80,40);
+  rect(190,430,80,40);
+  rect(280,430,80,40);
+  
+  
+  //image(cambio, 420,10);
+  
+  if(general==1){
+    cambio = convolucion(img,1);
+    image(img,10,10);
+    image(cambio, 420,10);
+  }else if(general == 2){
+    cambio = convolucion(img,2);
+    image(img,10,10);
+    image(cambio, 420,10);
+  }else if(general == 3){
+    cambio = convolucion(img,0);
+    arreglo = histograma();
+    cambio = segmentacion();
+    
+    pg.beginDraw();
+    pg.background(100);
+    pg.stroke(255);
+    pintarLineas();
+    pg.endDraw();
+    
+    image(img,10,10);
+    image(cambio, 420,10);
+    image(pg, 830,10);
+    
+}else if(general == 4){
+    cambio = convolucion(img,0);
+    arreglo = histograma();
+    cambio = segmentacion();
+   
+    pg.beginDraw();
+    pg.background(100);
+    pg.stroke(255);
+    pintarLineas();
+    pg.endDraw();
+    
+    image(img,10,10);
+    image(cambio, 420,10);
+    image(pg, 830,10);
+  }else{
+    cambio = convolucion(img,0);
+    image(img,10,10);
+    image(cambio, 420,10);
+  }
+  
+  
+  //image (movie,10,10, movie.width,movie.height);
   
   
 };
+
+void update(int x, int y){
+  if(mouseX>=10 && mouseX <= 90 && mouseY >= 430 && mouseY <= 470){
+    option = 1;
+  }else if(mouseX>=100 && mouseX <= 180 && mouseY >= 430 && mouseY <= 470){
+    option = 2;
+  }else if(mouseX>=190 && mouseX <= 270 && mouseY >= 430 && mouseY <= 470){
+    option = 3;
+  }else if(mouseX>=280 && mouseX <= 360 && mouseY >= 430 && mouseY <= 470){
+    option = 4;
+  }
+  
+};
+
+void mousePressed(){
+  if (option == 1){
+    general = 1;
+  }else if(option == 2){
+    general = 2;
+  }else if(option == 3){
+    general = 3;
+  }else if(option == 4){
+    general = 4;
+    //opcion = 0;
+  }else{
+    general = 1;
+  }
+}
