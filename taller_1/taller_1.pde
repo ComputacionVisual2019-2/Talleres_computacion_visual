@@ -6,7 +6,7 @@ import processing.video.*;
 PImage img, cambio;
 PGraphics pg;
 int [] arreglo = new int[256];
-int option=1, general = 0;
+int option=1, general = 1;
 
 
 PImage convolucion(PImage inicial, int opcion){ 
@@ -14,9 +14,9 @@ PImage convolucion(PImage inicial, int opcion){
   float divisor;
   if (opcion == 1){
     float[][] aux = { { 1, 1, 1 },
-                { 1, 1, 1 },
-                { 1, 1, 1 } 
-              };
+                      { 1, 1, 1 },
+                      { 1, 1, 1 } 
+                    };
    matris = aux;
    divisor = 9;
   }else{
@@ -92,21 +92,15 @@ Movie movie;
 
 
 void setup(){
-  
+  frameRate(30);
   //img = loadImage("uno.png");
   img = loadImage("tres.jpg");
-  //size(1352,550); 
-  size(1950,1200);
+  size(1950,550); 
   img.resize(400,400);
   img.loadPixels();
   pg=createGraphics(512, img.height);  
   //para video
-  /*
-  movie = new Movie(this,"video.mp4");
-
-  movie.loop();
-  */
-
+  //movie = new Movie(this,"video.mp4");
 };
 
 /*
@@ -115,20 +109,30 @@ void movieEvent(Movie m){
 }
 */
 void draw(){
+  println(frameRate);
   update(mouseX, mouseY);
   rect(10,430,80,40);
   rect(100,430,80,40);
   rect(190,430,80,40);
   rect(280,430,80,40);
+  rect(370,430,80,40);
   
   if(general==1){
     cambio = convolucion(img,1);
+    pg.beginDraw();
+    pg.clear();
+    pg.endDraw();
     image(img,10,10);
     image(cambio, 420,10);
+    image(pg, 830,10);
   }else if(general == 2){
     cambio = convolucion(img,2);
+    pg.beginDraw();
+    pg.clear();
+    pg.endDraw();
     image(img,10,10);
     image(cambio, 420,10);
+    image(pg, 830,10);
   }else if(general == 3){
     cambio = convolucion(img,0);
     arreglo = histograma();
@@ -158,15 +162,17 @@ void draw(){
     image(cambio, 420,10);
     image(pg, 830,10);
   }else{
+    ////////////////////////////////////////////////////////////////////////////////////////////VIDEOOOO/////
+    /*
     cambio = convolucion(img,0);
     image(img,10,10);
     image(cambio, 420,10);
+    */
+    clear();
+    movie = new Movie(this,"video.mp4");
+    movie.loop();
+    image (movie,10,10, movie.width,movie.height);  
   }
-  
-  
-  //image (movie,10,10, movie.width,movie.height);
-  
-  
 };
 
 void update(int x, int y){
@@ -178,6 +184,8 @@ void update(int x, int y){
     option = 3;
   }else if(mouseX>=280 && mouseX <= 360 && mouseY >= 430 && mouseY <= 470){
     option = 4;
+  }else if(mouseX>=370 && mouseX <= 450 && mouseY >= 430 && mouseY <= 470){
+    option = 5;
   }
   
 };
@@ -191,7 +199,7 @@ void mousePressed(){
     general = 3;
   }else if(option == 4){
     general = 4;
-  }else{
-    general = 1;
+  }else if(option == 5){
+    general = 5;
   }
 }
