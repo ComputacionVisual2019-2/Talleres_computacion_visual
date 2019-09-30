@@ -1,5 +1,8 @@
 import java.util.*;
 
+import processing.video.*;
+
+
 PImage img, cambio;
 PGraphics pg;
 int [] arreglo = new int[256];
@@ -57,22 +60,14 @@ int []histograma(){
   return aux;
 }
 
-void setup(){
-  
-  //img = loadImage("uno.png");
-  img = loadImage("tres.jpg");
-  size(1352,550); 
-  img.resize(400,400);
-  img.loadPixels();
-  int opcion = 0;
-  
-  cambio = convolucion(img,opcion);
-  
-  arreglo = histograma();
-  pg=createGraphics(512, cambio.height);  
-  cambio = segmentacion();
+void pintarLineas(){
+  int cont = 0;
+   for(int i = 0; i < 255;i++){
+    pg.line(cont,cambio.height, cont,cambio.height-arreglo[i]/7);
+    cont+=2;
+  }
+}
 
-};
 
 PImage segmentacion(){
   PImage aux = createImage(cambio.width,cambio.height,RGB);
@@ -91,17 +86,39 @@ PImage segmentacion(){
   }
   return aux;
 }
+Movie movie;
 
 
-void pintarLineas(){
-  int cont = 0;
-   for(int i = 0; i < 255;i++){
-    pg.line(cont,cambio.height, cont,cambio.height-arreglo[i]/7);
-    cont+=2;
-  }
+void setup(){
+  
+  //img = loadImage("uno.png");
+  img = loadImage("tres.jpg");
+  size(1352,550); 
+  //size(1950,1200);
+  img.resize(400,400);
+  img.loadPixels();
+  int opcion = 0;
+  
+  cambio = convolucion(img,opcion);
+  
+  arreglo = histograma();
+  pg=createGraphics(512, cambio.height);  
+  cambio = segmentacion();
+
+  movie = new Movie(this,"video.mp4");
+  movie.resize(500,500);
+  movie.loop();
+  
+
+};
+
+
+void movieEvent(Movie m){
+  m.read();
 }
 
 void draw(){
+  /*
   pg.beginDraw();
   pg.background(100);
   pg.stroke(255);
@@ -109,8 +126,9 @@ void draw(){
   pg.endDraw();
   image(img,10,10);
   image(cambio, 420,10);
-  image(pg, 830,10);
-  
+  */
+  //image(pg, 830,10);
+  image (movie,830,10, movie.width,movie.height);
   
   
 };
