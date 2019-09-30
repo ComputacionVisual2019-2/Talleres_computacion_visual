@@ -95,18 +95,11 @@ void setup(){
   
   //img = loadImage("uno.png");
   img = loadImage("tres.jpg");
-  size(1352,550); 
-  //size(1950,1200);
+  //size(1352,550); 
+  size(1950,1200);
   img.resize(400,400);
   img.loadPixels();
-  int opcion = 2;
-  //cambio = convolucion(img,opcion);
-  /// para la segmentacion en grises
-  //arreglo = histograma();
   pg=createGraphics(512, img.height);  
-  /*
-  cambio = segmentacion();
-  */
   //para video
   /*
   movie = new Movie(this,"video.mp4");
@@ -128,9 +121,6 @@ void draw(){
   rect(190,430,80,40);
   rect(280,430,80,40);
   
-  
-  //image(cambio, 420,10);
-  
   if(general==1){
     cambio = convolucion(img,1);
     image(img,10,10);
@@ -142,7 +132,6 @@ void draw(){
   }else if(general == 3){
     cambio = convolucion(img,0);
     arreglo = histograma();
-    cambio = segmentacion();
     
     pg.beginDraw();
     pg.background(100);
@@ -202,7 +191,6 @@ void mousePressed(){
     general = 3;
   }else if(option == 4){
     general = 4;
-    //opcion = 0;
   }else{
     general = 1;
   }
