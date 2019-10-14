@@ -31,7 +31,7 @@ Completar la tabla:
 
 | Integrante      | github nick |
 |-----------------|-------------|
-| Julian Dias     | JulianDDiaz |
+| Julian Diaz     | JulianDDiaz |
 |Gabriel Bejarano | GabrielEBD  |
 
 ## Discusión

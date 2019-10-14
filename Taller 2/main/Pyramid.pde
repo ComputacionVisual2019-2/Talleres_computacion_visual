@@ -1,6 +1,6 @@
 import java.lang.*;
 
-public class ilusion2{
+public class Pyramid implements Drawable{
   
   private int division;
   private PGraphics ventana;
@@ -8,7 +8,7 @@ public class ilusion2{
   private color azul, blanco;
   //////////////////////////////////////
   ////////DEFAUL DESDE CENTRO AZUL HASTA EXTERIOR BLANCO
-  public ilusion2(int x, int y){
+  public Pyramid(int x, int y){
     this.division = 1;
     if(x<y){
       this.X = x;
@@ -24,7 +24,7 @@ public class ilusion2{
   }
   //////////////////////////////////////
   ///////////////// CAMBIO DE COLORES DESDE: HASTA: 
-  public ilusion2(int x, int y, color desde, color hasta){
+  public Pyramid(int x, int y, color desde, color hasta){
     this.division = 1;
     if(x<y){
       this.X = x;
@@ -59,7 +59,7 @@ public class ilusion2{
     this.ancho = (X/2)/division;
   }
   
-  public PGraphics pintar(){
+  public PGraphics getPGraphics(){
     this.numeroCuadros();
     this.ventana.beginDraw();
         
@@ -73,5 +73,7 @@ public class ilusion2{
     this.ventana.endDraw();
     return this.ventana;
   }
+  
+  public void onMouseEvent(MouseEvent event, int x, int y){};
   
 }
