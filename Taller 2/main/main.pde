@@ -50,6 +50,12 @@ private void createMenu(){
       activeDrawable = new Pyramid(500,500);
     }
   }));
+  bl.addButton(new Button(100,35,"Bandas de Mach",new OnClickListener(){
+    @Override
+    public void onClick(int x, int y){
+      activeDrawable = new MachBands();
+    }
+  }));
 }
 
 void draw(){

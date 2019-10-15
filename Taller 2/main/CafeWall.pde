@@ -5,7 +5,7 @@ public class CafeWall implements Drawable{
   private int squareSize;
   
   public CafeWall(){
-    distance = 10;
+    distance = 7;
   }
   
   @Override
@@ -13,7 +13,7 @@ public class CafeWall implements Drawable{
     pg = createGraphics(300,300);
     pg.beginDraw();
     pg.background(0);
-    squareSize = 20;
+    squareSize = 15;
     for(int i=-2;i<pg.width/squareSize+4;i=i+2){
       for(int j=0;j<pg.height/squareSize;j++){
         if(j%2==0){
