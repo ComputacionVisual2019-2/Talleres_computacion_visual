@@ -115,14 +115,14 @@ void triangleRaster() {
   int minY = ListY.get(0);
   int maxY = ListY.get(2);
   
-  //----------------
+  //---------------- para pintarlo 
   int cX = round((x1+x2+x3)/3);
   int cY = round((y1+y2+y3)/3);
   int red,blue,green;
   
-  double  CV1 = Math.pow(((x1-cX)^2+(y1-cY)^2),1/2);
-  double  CV2 = Math.pow(((x2-cX)^2+(y2-cY)^2),1/2);
-  double  CV3 = Math.pow(((x3-cX)^2+(y3-cY)^2),1/2);
+  double  CV1 = Math.pow((Math.pow((x1-cX),2)+Math.pow((y1-cY),2)),0.5);
+  double  CV2 = Math.pow((Math.pow((x2-cX),2)+Math.pow((y2-cY),2)),0.5);
+  double  CV3 = Math.pow((Math.pow((x3-cX),2)+Math.pow((y3-cY),2)),0.5);
           
   //----------------
   
@@ -142,15 +142,18 @@ void triangleRaster() {
         if(general == t1 && t1 == t2 && t2 == t3){
           noStroke();
           
+          //******* para pintarlo 
+          double  distanceV1 = Math.pow((Math.pow((x1-i),2)+Math.pow((y1-j),2)),0.5);
+          double  distanceV2 = Math.pow((Math.pow((x2-i),2)+Math.pow((y2-j),2)),0.5);
+          double  distanceV3 = Math.pow((Math.pow((x3-i),2)+Math.pow((y3-j),2)),0.5);
           
-          double  distanceV1 = Math.pow(((x1-i)^2+(y1-j)^2),1/2);
-          double  distanceV2 = Math.pow(((x2-i)^2+(y2-j)^2),1/2);
-          double  distanceV3 = Math.pow(((x3-i)^2+(y3-j)^2),1/2);
+          double pv1 = distanceV1/CV1> 1? 0:1-distanceV1/CV1;
+          double pv2 = distanceV2/CV2> 1? 0:1-distanceV2/CV2;
+          double pv3 = distanceV3/CV3> 1? 0:1-distanceV3/CV3;
+          //*******
           
-          
-          
-          fill((),(),(255*()));
-          fill(255, 0, 0, 125);
+          fill((float)(255*(pv1)),(float)(255*(pv2)),(float)(255*(pv3)),200);
+          //fill(255, 0, 0, 125);
           square(i, j, 1);
         }
       }
