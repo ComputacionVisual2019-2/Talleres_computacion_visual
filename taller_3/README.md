@@ -30,7 +30,8 @@ Complete la tabla:
 
 ## Discusión
 
---
+En este taller se implementaron metodos de rasterizacion, Anti-aliasing y coloreado, con ayuda de conocimientos de algebra para implementar estas estrategias, utlilizando calculos sobre la orientacion del triangulo y sus centros.
+
 
 ## Entrega
 
