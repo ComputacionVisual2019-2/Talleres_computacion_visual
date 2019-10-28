@@ -2,6 +2,11 @@ import nub.primitives.*;
 import nub.core.*;
 import nub.processing.*;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.ArrayList;
+import java.lang.Math.*;
+
 // 1. Nub objects
 Scene scene;
 Node node;
@@ -22,7 +27,7 @@ boolean shadeHint = false;
 String renderer = P2D;
 
 // 4. Window dimension
-int dim = 10;
+int dim = 9;
 
 void settings() {
   size(int(pow(2, dim)), int(pow(2, dim)), renderer);
@@ -79,18 +84,86 @@ void draw() {
 void triangleRaster() {
   // node.location converts points from world to node
   // here we convert v1 to illustrate the idea
+  
+  
+  //-- GabrielEBD toma de los puntos 
+  int x1,x2,x3,y1,y2,y3;
+  x1 = round(node.location(v1).x());
+  x2 = round(node.location(v2).x());
+  x3 = round(node.location(v3).x());
+  
+  y1 = round(node.location(v1).y());
+  y2 = round(node.location(v2).y());
+  y3 = round(node.location(v3).y());
+  
+  //-- GabrielEBD metodo para encontrar los puntos mas lejanos y cercanos 
+  List<Integer> ListX = new ArrayList<Integer>();
+  List<Integer> ListY = new ArrayList<Integer>();
+  ListX.add(round(node.location(v1).x()));
+  ListX.add(round(node.location(v2).x()));
+  ListX.add(round(node.location(v3).x()));
+
+  ListY.add(round(node.location(v1).y()));
+  ListY.add(round(node.location(v2).y()));
+  ListY.add(round(node.location(v3).y()));
+  Collections.sort(ListX);
+  Collections.sort(ListY);
+  
+  //-- maximos y minimos para limites en el el for()
+  int minX = ListX.get(0);
+  int maxX = ListX.get(2);
+  int minY = ListY.get(0);
+  int maxY = ListY.get(2);
+  
+  //----------------
+  int cX = round((x1+x2+x3)/3);
+  int cY = round((y1+y2+y3)/3);
+  int red,blue,green;
+  
+  double  CV1 = Math.pow(((x1-cX)^2+(y1-cY)^2),1/2);
+  double  CV2 = Math.pow(((x2-cX)^2+(y2-cY)^2),1/2);
+  double  CV3 = Math.pow(((x3-cX)^2+(y3-cY)^2),1/2);
+          
+  //----------------
+  
   if (debug) {
     push();
-    for(int i = 0;i<10;i++){
-      noStroke();
-      fill(255, 0, 0, 125);
-      square(round(node.location(v1).x()), round(node.location(v1).y()), 1);
+    
+    for(int i = minX-1;i<=maxX;i++){
+      for(int j = minY-1; j<= maxY;j++){
         
+        //-- ecuaciones para la orientacion de del tringulo principal y los triangulos que se forman con respecto al punto (i,j)
+        //-- ref : http://www.dma.fi.upm.es/personal/mabellanas/tfcs/kirkpatrick/Aplicacion/algoritmos.htm
+        int general = (x1-x3)*(y2-y3)-(y1-y3)*(x2-x3)>0? 1:-1;
+        int t1 = (x1-i)*(y2-j)-(y1-j)*(x2-i)>0? 1:-1;
+        int t2 = (x2-i)*(y3-j)-(y2-j)*(x3-i) >0? 1:-1;
+        int t3 = (x3-i)*(y1-j)-(y3-j)*(x1-i)>0? 1:-1;
+        // si tienen la misma orientacion entonces el punto esta dentro del trangulo y lo pinta 
+        if(general == t1 && t1 == t2 && t2 == t3){
+          noStroke();
+          
+          
+          double  distanceV1 = Math.pow(((x1-i)^2+(y1-j)^2),1/2);
+          double  distanceV2 = Math.pow(((x2-i)^2+(y2-j)^2),1/2);
+          double  distanceV3 = Math.pow(((x3-i)^2+(y3-j)^2),1/2);
+          
+          
+          
+          fill((),(),(255*()));
+          fill(255, 0, 0, 125);
+          square(i, j, 1);
+        }
+      }
     }
     
     noStroke();
     fill(255, 0, 0, 125);
     square(round(node.location(v1).x()), round(node.location(v1).y()), 1);
+    fill(0, 255, 0, 125);
+    square(round(node.location(v2).x()), round(node.location(v2).y()), 1);
+    fill(0, 0, 255, 125);
+    square(round(node.location(v3).x()), round(node.location(v3).y()), 1);
+    
     pop();
   }
 }
