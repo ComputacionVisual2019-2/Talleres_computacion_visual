@@ -81,6 +81,13 @@ void triangleRaster() {
   // here we convert v1 to illustrate the idea
   if (debug) {
     push();
+    for(int i = 0;i<10;i++){
+      noStroke();
+      fill(255, 0, 0, 125);
+      square(round(node.location(v1).x()), round(node.location(v1).y()), 1);
+        
+    }
+    
     noStroke();
     fill(255, 0, 0, 125);
     square(round(node.location(v1).x()), round(node.location(v1).y()), 1);
