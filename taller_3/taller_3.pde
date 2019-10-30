@@ -22,6 +22,8 @@ boolean triangleHint = true;
 boolean gridHint = true;
 boolean debug = true;
 boolean shadeHint = false;
+boolean antialising = true;
+boolean colorized = false;
 
 // 3. Use FX2D, JAVA2D, P2D or P3D
 String renderer = P2D;
@@ -139,7 +141,7 @@ void triangleRaster() {
         int t2 = (x2-i)*(y3-j)-(y2-j)*(x3-i) >0? 1:-1;
         int t3 = (x3-i)*(y1-j)-(y3-j)*(x1-i)>0? 1:-1;
         // si tienen la misma orientacion entonces el punto esta dentro del trangulo y lo pinta 
-        if(general == t1 && t1 == t2 && t2 == t3){
+        if(!antialising && general == t1 && t1 == t2 && t2 == t3){
           noStroke();
           
           //******* para pintarlo 
@@ -169,6 +171,61 @@ void triangleRaster() {
     
     pop();
   }
+  if(antialising){
+    for(int i = minX-1;i<=maxX;i++){
+      for(int j = minY-1; j<= maxY;j++){
+        double percentage = 0;
+        int c11 = (y1-y2)*(i-0.5)+(x2-x1)*(j-0.5)+(x1*y2-y1*x2) >0? 1:-1;
+        int c12 = (y2-y3)*(i-0.5)+(x3-x2)*(j-0.5)+(x2*y3-y2*x3) >0? 1:-1;
+        int c13 = (y3-y1)*(i-0.5)+(x1-x3)*(j-0.5)+(x3*y1-y3*x1) >0? 1:-1;
+        int c21 = (y1-y2)*(i+0.5)+(x2-x1)*(j-0.5)+(x1*y2-y1*x2) >0? 1:-1;
+        int c22 = (y2-y3)*(i+0.5)+(x3-x2)*(j-0.5)+(x2*y3-y2*x3) >0? 1:-1;
+        int c23 = (y3-y1)*(i+0.5)+(x1-x3)*(j-0.5)+(x3*y1-y3*x1) >0? 1:-1;
+        int c31 = (y1-y2)*(i-0.5)+(x2-x1)*(j+0.5)+(x1*y2-y1*x2) >0? 1:-1;
+        int c32 = (y2-y3)*(i-0.5)+(x3-x2)*(j+0.5)+(x2*y3-y2*x3) >0? 1:-1;
+        int c33 = (y3-y1)*(i-0.5)+(x1-x3)*(j+0.5)+(x3*y1-y3*x1) >0? 1:-1;
+        int c41 = (y1-y2)*(i+0.5)+(x2-x1)*(j+0.5)+(x1*y2-y1*x2) >0? 1:-1;
+        int c42 = (y2-y3)*(i+0.5)+(x3-x2)*(j+0.5)+(x2*y3-y2*x3) >0? 1:-1;
+        int c43 = (y3-y1)*(i+0.5)+(x1-x3)*(j+0.5)+(x3*y1-y3*x1) >0? 1:-1;
+        if(c11==c12 && c12==c13){
+          percentage += 0.25;
+        }
+        if(c21==c22 && c22==c23){
+          percentage += 0.25;
+        }
+        if(c31==c32 && c32==c33){
+          percentage += 0.25;
+        }
+        if(c41==c42 && c42==c43){
+          percentage += 0.25;
+        }
+        if(percentage > 0){
+          if(colorized){
+            noStroke();
+            double  distanceV1 = Math.pow((Math.pow((x1-i),2)+Math.pow((y1-j),2)),0.5);
+            double  distanceV2 = Math.pow((Math.pow((x2-i),2)+Math.pow((y2-j),2)),0.5);
+            double  distanceV3 = Math.pow((Math.pow((x3-i),2)+Math.pow((y3-j),2)),0.5);
+            double pv1 = distanceV1/CV1> 1? 0:1-distanceV1/CV1;
+            double pv2 = distanceV2/CV2> 1? 0:1-distanceV2/CV2;
+            double pv3 = distanceV3/CV3> 1? 0:1-distanceV3/CV3;
+            fill((float)(255*(pv1)*percentage),(float)(255*(pv2)*percentage),(float)(255*(pv3)*percentage),200);
+            square(i, j, 1);
+          }else{
+            noStroke();
+            fill((int) (255-255*percentage));
+            square(i, j, 1);
+          }
+        }
+      }
+    }
+  }
+  strokeWeight(5);
+  stroke(255, 0, 0);
+  point(v1.x(), v1.y());
+  stroke(0, 255, 0);
+  point(v2.x(), v2.y());
+  stroke(0, 0, 255);
+  point(v3.x(), v3.y());
 }
 
 void randomizeTriangle() {
@@ -243,4 +300,8 @@ void keyPressed() {
       spinningTask.run();
   if (key == 'y')
     yDirection = !yDirection;
+  if (key == 'a')
+    antialising = !antialising;
+  if (key == 'c')
+    colorized = !colorized;
 }
