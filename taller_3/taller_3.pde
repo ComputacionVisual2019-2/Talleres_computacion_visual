@@ -153,9 +153,21 @@ void triangleRaster() {
           double pv2 = distanceV2/CV2> 1? 0:1-distanceV2/CV2;
           double pv3 = distanceV3/CV3> 1? 0:1-distanceV3/CV3;
           //*******
+          ////////////////////////////////////////////////////////////////////
+          int g = (x1-x3)*(y2-y3)-(y1-y3)*(x2-x3);
+          int A = (x1-i)*(y2-j)-(y1-j)*(x2-i);
+          int B = (x2-i)*(y3-j)-(y2-j)*(x3-i);
+          int C = (x3-i)*(y1-j)-(y3-j)*(x1-i);
+          double genA = A/(A+B+C+0.0);
+          double genB = B/(A+B+C+0.0);
+          double genC = C/(A+B+C+0.0);
+          fill((float)(255*(genA)),(float)(255*(genB)),(float)(255*(genC)),200);
           
-          fill((float)(255*(pv1)),(float)(255*(pv2)),(float)(255*(pv3)),200);
-          //fill(255, 0, 0, 125);
+          /////////////////////////////////////////////////////////
+          
+          
+          //fill((float)(255*(pv1)),(float)(255*(pv2)),(float)(255*(pv3)),200);
+          //fill((((x1-i)*(y2-j)-(y1-j)*(x2-i))/((x1-x3)*(y2-y3)-(y1-y3)*(x2-x3))), ((x2-i)*(y3-j)-(y2-j)*(x3-i))/((x1-x3)*(y2-y3)-(y1-y3)*(x2-x3)), ((x3-i)*(y1-j)-(y3-j)*(x1-i))/((x1-x3)*(y2-y3)-(y1-y3)*(x2-x3)), 125);
           square(i, j, 1);
         }
       }
@@ -178,15 +190,19 @@ void triangleRaster() {
         int c11 = (y1-y2)*(i-0.5)+(x2-x1)*(j-0.5)+(x1*y2-y1*x2) >0? 1:-1;
         int c12 = (y2-y3)*(i-0.5)+(x3-x2)*(j-0.5)+(x2*y3-y2*x3) >0? 1:-1;
         int c13 = (y3-y1)*(i-0.5)+(x1-x3)*(j-0.5)+(x3*y1-y3*x1) >0? 1:-1;
+        
         int c21 = (y1-y2)*(i+0.5)+(x2-x1)*(j-0.5)+(x1*y2-y1*x2) >0? 1:-1;
         int c22 = (y2-y3)*(i+0.5)+(x3-x2)*(j-0.5)+(x2*y3-y2*x3) >0? 1:-1;
         int c23 = (y3-y1)*(i+0.5)+(x1-x3)*(j-0.5)+(x3*y1-y3*x1) >0? 1:-1;
+        
         int c31 = (y1-y2)*(i-0.5)+(x2-x1)*(j+0.5)+(x1*y2-y1*x2) >0? 1:-1;
         int c32 = (y2-y3)*(i-0.5)+(x3-x2)*(j+0.5)+(x2*y3-y2*x3) >0? 1:-1;
         int c33 = (y3-y1)*(i-0.5)+(x1-x3)*(j+0.5)+(x3*y1-y3*x1) >0? 1:-1;
+        
         int c41 = (y1-y2)*(i+0.5)+(x2-x1)*(j+0.5)+(x1*y2-y1*x2) >0? 1:-1;
         int c42 = (y2-y3)*(i+0.5)+(x3-x2)*(j+0.5)+(x2*y3-y2*x3) >0? 1:-1;
         int c43 = (y3-y1)*(i+0.5)+(x1-x3)*(j+0.5)+(x3*y1-y3*x1) >0? 1:-1;
+        
         if(c11==c12 && c12==c13){
           percentage += 0.25;
         }
@@ -202,13 +218,14 @@ void triangleRaster() {
         if(percentage > 0){
           if(colorized){
             noStroke();
-            double  distanceV1 = Math.pow((Math.pow((x1-i),2)+Math.pow((y1-j),2)),0.5);
-            double  distanceV2 = Math.pow((Math.pow((x2-i),2)+Math.pow((y2-j),2)),0.5);
-            double  distanceV3 = Math.pow((Math.pow((x3-i),2)+Math.pow((y3-j),2)),0.5);
-            double pv1 = distanceV1/CV1> 1? 0:1-distanceV1/CV1;
-            double pv2 = distanceV2/CV2> 1? 0:1-distanceV2/CV2;
-            double pv3 = distanceV3/CV3> 1? 0:1-distanceV3/CV3;
-            fill((float)(255*(pv1)*percentage),(float)(255*(pv2)*percentage),(float)(255*(pv3)*percentage),200);
+            int A = (x1-i)*(y2-j)-(y1-j)*(x2-i);
+            int B = (x2-i)*(y3-j)-(y2-j)*(x3-i);
+            int C = (x3-i)*(y1-j)-(y3-j)*(x1-i);
+            double genA = A/(A+B+C+0.0);
+            double genB = B/(A+B+C+0.0);
+            double genC = C/(A+B+C+0.0);
+            fill((float)(255*(genA)*percentage),(float)(255*(genB)*percentage),(float)(255*(genC)*percentage),200);
+            //fill((((x1-i)*(y2-j)-(y1-j)*(x2-i))/((x1-x3)*(y2-y3)-(y1-y3)*(x2-x3))), ((x2-i)*(y3-j)-(y2-j)*(x3-i))/((x1-x3)*(y2-y3)-(y1-y3)*(x2-x3)), ((x3-i)*(y1-j)-(y3-j)*(x1-i))/((x1-x3)*(y2-y3)-(y1-y3)*(x2-x3)), 125);
             square(i, j, 1);
           }else{
             noStroke();
