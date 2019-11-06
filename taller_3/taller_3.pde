@@ -120,7 +120,6 @@ void triangleRaster() {
   //---------------- para pintarlo 
   int cX = round((x1+x2+x3)/3);
   int cY = round((y1+y2+y3)/3);
-  int red,blue,green;
   
   double  CV1 = Math.pow((Math.pow((x1-cX),2)+Math.pow((y1-cY),2)),0.5);
   double  CV2 = Math.pow((Math.pow((x2-cX),2)+Math.pow((y2-cY),2)),0.5);
@@ -167,7 +166,6 @@ void triangleRaster() {
           
           
           //fill((float)(255*(pv1)),(float)(255*(pv2)),(float)(255*(pv3)),200);
-          //fill((((x1-i)*(y2-j)-(y1-j)*(x2-i))/((x1-x3)*(y2-y3)-(y1-y3)*(x2-x3))), ((x2-i)*(y3-j)-(y2-j)*(x3-i))/((x1-x3)*(y2-y3)-(y1-y3)*(x2-x3)), ((x3-i)*(y1-j)-(y3-j)*(x1-i))/((x1-x3)*(y2-y3)-(y1-y3)*(x2-x3)), 125);
           square(i, j, 1);
         }
       }
